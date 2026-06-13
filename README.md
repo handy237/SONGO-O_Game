@@ -54,7 +54,7 @@ Les règles implémentées : semis dans l’ordre horaire, prise simple, fin de 
    Démo en ligne
 
 Le jeu est hébergé sur Railway :
-👉  songo-ogame-production.up.railway.app
+👉  songo-game-handji.up.railway.app
 
 
 
