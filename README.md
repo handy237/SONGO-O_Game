@@ -1,4 +1,4 @@
-# 🎲 Songo – Jeu de semailles (version distante)
+# 🎲 Songo – Jeu de semailles (version  local et distante)
 
 ## Auteur
 
@@ -9,7 +9,7 @@ Projet réalisé dans le cadre de mon apprentissage Programmation web.
 
 ## 📝 Description
 
-Ce projet est une implémentation en ligne du jeu traditionnel Songo (variante Ekang), jouable à deux joueurs sur des machines différentes.  
+Ce projet est une implémentation en local et ligne du jeu traditionnel Songo (variante Ekang), jouable à deux joueurs sur des machines différentes.  
 La version actuelle est une application web complète avec :
 - un frontend en HTML/CSS/JS (interface rose, responsive),
 - un backend en Node.js + Express,
@@ -42,11 +42,26 @@ Les règles implémentées : semis dans l’ordre horaire, prise simple, fin de 
 | Serveur        | Railway (hébergement)         |
 | Versionnement  | Git + GitHub                  |
 
----
+
 
 ## 📦 Installation en local
 
 1. Cloner le dépôt
    `bash
-   git clone https://github.com/TON_COMPTE/Songo-Express.git
-   cd Songo-Express
+   git clone https://github.com/TON_COMPTE/SONGO-O_Game.git
+   cd SONGO-O_Game
+
+   Démo en ligne
+
+Le jeu est hébergé sur Railway :
+👉  songo-ogame-production.up.railway.app
+
+
+
+## 🎮 Comment jouer
+
+· Joueur Nord clique sur une case de sa rangée (celle du haut).
+· Joueur Sud clique sur une case de sa rangée (celle du bas).
+· Le tour passe automatiquement après chaque coup.
+· Les prises sont affichées dans le message d’information.
+· Le bouton Nouvelle partie réinitialise complètement le plateau.

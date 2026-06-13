@@ -1,7 +1,7 @@
 // État du jeu
 let board = [
-    [6,6,6,6,6,6,6], // Nord (joueur 0)
-    [6,6,6,6,6,6,6]  // Sud (joueur 1)
+    [5,5,5,5,5,5,5], // Nord (joueur 0)
+    [5,5,5,5,5,5,5]  // Sud (joueur 1)
 ];
 let scores = [0, 0];   // graine collectées par chaque joueur
 let currentPlayer = 0; // 0 = Nord, 1 = Sud
@@ -149,8 +149,8 @@ function playMove(player, col) {
 // Réinitialisation
 function resetGame() {
     board = [
-        [6,6,6,6,6,6,6],
-        [6,6,6,6,6,6,6]
+        [5,5,5,5,5,5,5],
+        [5,5,5,5,5,5,5]
     ];
     scores = [0, 0];
     currentPlayer = 0;
