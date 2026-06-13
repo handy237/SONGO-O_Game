@@ -3,233 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Songo - Version distante (Rose)</title>
+    <title>Accueil - Jeu Songo</title>
     <style>
-        * {
-            box-sizing: border-box;
-            user-select: none;
-        }
         body {
-            background: linear-gradient(145deg, #ffdde1 0%, #f9c6d9 100%);
-            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #1a2a3a);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            padding: 20px;
         }
-        .game-container {
-            background: rgba(255,245,250,0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 64px;
-            padding: 25px 35px 35px 35px;
-            box-shadow: 0 20px 35px rgba(255,80,120,0.3);
-            border: 1px solid #ffb7c5;
-            transition: 0.2s;
+        .container {
+            background: rgba(0,0,0,0.7);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
         h1 {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #b13e5e;
-            text-shadow: 2px 2px 6px #ffb7c5;
-            letter-spacing: 1px;
-            word-break: keep-all;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #f9d56e;
         }
-        .sub {
-            text-align: center;
-            font-weight: 500;
-            color: #c95c7a;
-            margin-bottom: 25px;
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
             font-style: italic;
         }
-        .scores {
-            display: flex;
-            justify-content: space-between;
-            background: #ffe4ed;
-            padding: 12px 25px;
-            border-radius: 60px;
-            margin-bottom: 30px;
+        .btn {
+            display: inline-block;
+            background: #f39c12;
+            color: #2c3e50;
+            padding: 15px 30px;
+            margin: 15px;
+            font-size: 1.2rem;
             font-weight: bold;
-            font-size: 1.3rem;
-            color: #9e3c58;
-            box-shadow: inset 0 1px 3px #ffb7c5, 0 4px 8px rgba(0,0,0,0.05);
-        }
-        .board {
-            background: #e9a2b0;
-            padding: 20px;
-            border-radius: 70px;
-            box-shadow: 0 12px 20px rgba(0,0,0,0.2);
-        }
-        .row {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 12px 0;
-        }
-        .cell {
-            width: 70px;
-            height: 70px;
-            background: #fff0f2;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #b34464;
-            box-shadow: 0 6px 0 #b25c74;
-            cursor: pointer;
-            transition: 0.07s linear;
-            border: 2px solid #ffc0d0;
-        }
-        .cell:active {
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #b25c74;
-        }
-        .north .cell {
-            background: #ffeef2;
-        }
-        .south .cell {
-            background: #ffeef2;
-        }
-        .info-panel {
-            background: #ffdae3;
-            border-radius: 50px;
-            padding: 15px 25px;
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .turn-indicator {
-            background: #b13e5e;
-            color: white;
-            padding: 8px 24px;
-            border-radius: 40px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            box-shadow: inset 0 1px 3px #ffc0d0, 0 4px 8px rgba(0,0,0,0.1);
-        }
-        button {
-            background: #d66b87;
             border: none;
-            color: white;
-            font-weight: bold;
-            padding: 8px 28px;
-            border-radius: 40px;
-            font-size: 1rem;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.1s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1); 
+            transition: transform 0.2s, background 0.2s;
+            text-decoration: none;
         }
-        button:hover {
-            background: #b94565;
-            transform: scale(0.97);
+        .btn:hover {
+            background: #e67e22;
+            transform: scale(1.05);
+        }
+        .btn-exit {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-exit:hover {
+            background: #c0392b;
+        }
+        .rules {
+            text-align: left;
+            background: #34495e;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+        }
+        .rules h3 {
+            margin-top: 0;
+            color: #f9d56e;
         }
         footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: #b65874;
-        }
-        @media (max-width: 650px) {
-            .cell { width: 50px; height: 50px; font-size: 1.3rem; }
-            .row { gap: 6px; }
-            .game-container { padding: 20px; }
+            margin-top: 30px;
+            font-size: 0.8rem;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
-<div class="game-container">
-    <h1>🌸 S O N G O  🌸</h1>
-    <div class="sub">✨ version distante ✨</div>
-    <div class="scores">
-        <span>🏔️ Nord &nbsp; <span id="scoreNord">0</span></span>
-        <span>🌴 Sud &nbsp; <span id="scoreSud">0</span></span>
-    </div>
-    <div class="board">
-        <div class="row north" id="northRow"></div>
-        <div class="row south" id="southRow"></div>
-    </div>
-    <div class="info-panel">
-        <div class="turn-indicator" id="turnMsg">Tour : Nord</div>
-        <button id="resetBtn">🔄 Nouvelle partie</button>
-    </div>
-    <footer>deux joueurs sur deux navigateurs • ajax / node.js</footer>
-</div>
+    <div class="container">
+        <h1>🏆 Jeu Songo 🏆</h1>
+        <div class="subtitle">Le jeu de semailles traditionnel d'Afrique centrale</div>
+        <a href="songo.html" class="btn">🎲 Jouer (version locale)</a>
+        <a href="index1.html" class="btn">🎲 Jouer (version en ligne)</a>
+        <button class="btn btn-exit" id="exitBtn">❌ Sortir</button>
 
-<script>
-    const API_BASE = '/api';
+        <div class="rules">
+            <h3>📜 Brève explication des fonctions du code :</h3>
+            <ul>
+                <li><strong>distribute()</strong> : sème les graines case par case selon le parcours du Songo (propre camp droite→gauche, puis adverse gauche→droite).</li>
+                <li><strong>capture()</strong> : vérifie si la dernière case tombe dans une case adverse prenable (2,3 ou 4 graines) et récolte la chaîne.</li>
+                <li><strong>applyMove()</strong> : exécute un coup complet, gère le changement de joueur et les conditions de fin de partie.</li>
+                <li><strong>checkSolidarity()</strong> : applique la règle de solidarité si le camp adverse est vide.</li>
+                <li><strong>renderBoard()</strong> : met à jour l'affichage graphique du plateau et des scores.</li>
+            </ul>
+            <p>✨ Version locale : deux joueurs sur le même ordinateur. Chaque joueur clique sur une case de son territoire pour jouer.</p>
+        </div>
+        <footer>TP INF222 - Dr. MESSI - Réalisé par Tchuessi Handji Françoise Arielle 24F2782</footer>
+    </div>
 
-    async function fetchState() {
-        const res = await fetch(`${API_BASE}/state`);
-        return await res.json();
-    }
-
-    async function sendPlay(player, col) {
-        await fetch(`${API_BASE}/play`  , {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ player, col })
+    <script>
+        // Gestion du bouton "Sortir"
+        document.getElementById('exitBtn').addEventListener('click', function() {
+            if (confirm("Voulez-vous vraiment quitter le jeu ?")) {
+                window.close(); // Ferme l'onglet (fonctionne parfois, sinon message)
+                alert("Fermez cet onglet manuellement si nécessaire.");
+            }
         });
-    }
-
-    async function resetGame() {
-        await fetch(`${API_BASE}/reset`, { method: 'POST' });
-    }
-
-    async function updateUI() {
-        const state = await fetchState();
-        const northRow = document.getElementById('northRow');
-        const southRow = document.getElementById('southRow');
-        northRow.innerHTML = '';
-        southRow.innerHTML = '';
-
-        for (let i = 0; i < 7; i++) {
-            let cellNorth = document.createElement('div');
-            cellNorth.className = 'cell';
-            cellNorth.textContent = state.board[0][i];
-            cellNorth.addEventListener('click', () => playMove(0, i));
-            northRow.appendChild(cellNorth);
-
-            let cellSouth = document.createElement('div');
-            cellSouth.className = 'cell';
-            cellSouth.textContent = state.board[1][i];
-            cellSouth.addEventListener('click', () => playMove(1, i));
-            southRow.appendChild(cellSouth);
-        }
-
-        document.getElementById('scoreNord').textContent = state.scores[0];
-        document.getElementById('scoreSud').textContent = state.scores[1];
-        const turnMsg = document.getElementById('turnMsg');
-        if (!state.gameOver) {
-            turnMsg.textContent = `🎀 Tour : ${state.currentPlayer === 0 ? 'Nord' : 'Sud'} 🎀`;
-        } else {
-            turnMsg.textContent = '🏁 Partie terminée 🏁';
-        }
-    }
-
-    async function playMove(player, col) {
-        await sendPlay(player, col);
-        await updateUI();
-    }
-
-    async function handleReset() {
-        await resetGame();
-        await updateUI();
-    }
-
-    document.getElementById('resetBtn').addEventListener('click', handleReset);
-    // rafraîchissement toutes les 1.5 secondes (pour l'autre joueur)
-    setInterval(updateUI, 1500);
-    updateUI();
-</script>
+    </script>
 </body>
 </html>
