@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songo - Version distante (Rose)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: linear-gradient(145deg, #ffdde1 0%, #f9c6d9 100%);
+            font-family: 'Segoe UI', 'Quicksand', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            background: rgba(255,245,250,0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 64px;
+            padding: 25px 35px 35px 35px;
+            box-shadow: 0 20px 35px rgba(255,80,120,0.3);
+            border: 1px solid #ffb7c5;
+            transition: 0.2s;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #b13e5e;
+            text-shadow: 2px 2px 6px #ffb7c5;
+            letter-spacing: 1px;
+            word-break: keep-all;
+        }
+        .sub {
+            text-align: center;
+            font-weight: 500;
+            color: #c95c7a;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .scores {
+            display: flex;
+            justify-content: space-between;
+            background: #ffe4ed;
+            padding: 12px 25px;
+            border-radius: 60px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #9e3c58;
+            box-shadow: inset 0 1px 3px #ffb7c5, 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .board {
+            background: #e9a2b0;
+            padding: 20px;
+            border-radius: 70px;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .cell {
+            width: 70px;
+            height: 70px;
+            background: #fff0f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #b34464;
+            box-shadow: 0 6px 0 #b25c74;
+            cursor: pointer;
+            transition: 0.07s linear;
+            border: 2px solid #ffc0d0;
+        }
+        .cell:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #b25c74;
+        }
+        .north .cell {
+            background: #ffeef2;
+        }
+        .south .cell {
+            background: #ffeef2;
+        }
+        .info-panel {
+            background: #ffdae3;
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .turn-indicator {
+            background: #b13e5e;
+            color: white;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: inset 0 1px 3px #ffc0d0, 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #d66b87;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 8px 28px;
+            border-radius: 40px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1); 
+        }
+        button:hover {
+            background: #b94565;
+            transform: scale(0.97);
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #b65874;
+        }
+        @media (max-width: 650px) {
+            .cell { width: 50px; height: 50px; font-size: 1.3rem; }
+            .row { gap: 6px; }
+            .game-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>🌸 S O N G O  🌸</h1>
+    <div class="sub">✨ version distante ✨</div>
+    <div class="scores">
+        <span>🏔️ Nord &nbsp; <span id="scoreNord">0</span></span>
+        <span>🌴 Sud &nbsp; <span id="scoreSud">0</span></span>
+    </div>
+    <div class="board">
+        <div class="row north" id="northRow"></div>
+        <div class="row south" id="southRow"></div>
+    </div>
+    <div class="info-panel">
+        <div class="turn-indicator" id="turnMsg">Tour : Nord</div>
+        <button id="resetBtn">🔄 Nouvelle partie</button>
+    </div>
+    <footer>deux joueurs sur deux navigateurs • ajax / node.js</footer>
+</div>
+
+<script>
+    const API_BASE = '/api';
+
+    async function fetchState() {
+        const res = await fetch(`${API_BASE}/state`);
+        return await res.json();
+    }
+
+    async function sendPlay(player, col) {
+        await fetch(`${API_BASE}/play`  , {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ player, col })
+        });
+    }
+
+    async function resetGame() {
+        await fetch(`${API_BASE}/reset`, { method: 'POST' });
+    }
+
+    async function updateUI() {
+        const state = await fetchState();
+        const northRow = document.getElementById('northRow');
+        const southRow = document.getElementById('southRow');
+        northRow.innerHTML = '';
+        southRow.innerHTML = '';
+
+        for (let i = 0; i < 7; i++) {
+            let cellNorth = document.createElement('div');
+            cellNorth.className = 'cell';
+            cellNorth.textContent = state.board[0][i];
+            cellNorth.addEventListener('click', () => playMove(0, i));
+            northRow.appendChild(cellNorth);
+
+            let cellSouth = document.createElement('div');
+            cellSouth.className = 'cell';
+            cellSouth.textContent = state.board[1][i];
+            cellSouth.addEventListener('click', () => playMove(1, i));
+            southRow.appendChild(cellSouth);
+        }
+
+        document.getElementById('scoreNord').textContent = state.scores[0];
+        document.getElementById('scoreSud').textContent = state.scores[1];
+        const turnMsg = document.getElementById('turnMsg');
+        if (!state.gameOver) {
+            turnMsg.textContent = `🎀 Tour : ${state.currentPlayer === 0 ? 'Nord' : 'Sud'} 🎀`;
+        } else {
+            turnMsg.textContent = '🏁 Partie terminée 🏁';
+        }
+    }
+
+    async function playMove(player, col) {
+        await sendPlay(player, col);
+        await updateUI();
+    }
+
+    async function handleReset() {
+        await resetGame();
+        await updateUI();
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', handleReset);
+    // rafraîchissement toutes les 1.5 secondes (pour l'autre joueur)
+    setInterval(updateUI, 1500);
+    updateUI();
+</script>
+</body>
+</html>
